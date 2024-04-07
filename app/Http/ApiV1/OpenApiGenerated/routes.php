@@ -5,7 +5,12 @@
  * Do NOT edit it manually. Run `php artisan openapi:generate-server`.
  */
 
-use App\Http\ApiV1\Modules\Foos\Controllers\FoosController;
+use App\Http\ApiV1\Modules\Clients\Controllers\ClientController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('examples/{id}', [FoosController::class, 'get'])->name('getExample');
+Route::post('clients/register', [ClientController::class, 'register']);
+Route::post('clients', [ClientController::class, 'create']);
+Route::post('clients/login', [ClientController::class, 'login']);
+Route::get('clients/{id}', [ClientController::class, 'get']);
+Route::put('clients/replace/{id}', [ClientController::class, 'replace']);
+Route::delete('clients/delete/{id}', [ClientController::class, 'delete']);
