@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\Clients\Models\CustomFormatter;
 use Ensi\LaravelStdoutLogsHelper\LaravelStdoutLogsHelper;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
