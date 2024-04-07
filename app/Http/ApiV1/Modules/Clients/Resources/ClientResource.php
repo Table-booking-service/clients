@@ -2,16 +2,16 @@
 
 namespace App\Http\ApiV1\Modules\Clients\Resources;
 
+use App\Domain\Clients\Models\Clients;
 use App\Http\ApiV1\Support\Resources\BaseJsonResource;
 
 /**
- * @mixin todo
+ * @mixin Clients
  */
 class ClientResource extends BaseJsonResource
 {
     public function toArray($request): array
     {
-        // todo
         return [
             'id' => $this->id,
             'fio' => $this->fio,
