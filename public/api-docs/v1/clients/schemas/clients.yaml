@@ -1,0 +1,117 @@
+Clients:
+  type: object
+  properties:
+    id:
+      type: integer
+      description: Идентификатор клиента
+      example: 1
+    fio:
+      type: string
+      description: ФИО клиента
+      example: "Родионов Максим Владимирович"
+    phone_number:
+      type: string
+      description: Номер телефона
+      example: "+7-913-459-1233"
+    updated_at:
+      description: "Дата обновления"
+      format: date-time
+      type: string
+      example: "2024-01-01T11:57:28.000000Z"
+    created_at:
+      description: "Дата обновления"
+      format: date-time
+      type: string
+      example: "2024-01-01T11:57:28.000000Z"
+  required:
+    - id
+    - fio
+    - phone_number
+    - updated_at
+    - created_at
+
+RegisterResponse:
+  type: object
+  properties:
+    data:
+      $ref: '#/Clients'
+    meta:
+      type: object
+  required:
+    - data
+
+RegisterClientsRequest:
+  type: object
+  properties:
+    fio:
+      type: string
+      description: ФИО клиента
+      example: "Родионов Максим Владимирович"
+    email:
+      type: string
+      description: Email
+      example: "example@mail.ru"
+    phone_number:
+      type: string
+      description: Номер телефона
+      example: "+7-913-459-1233"
+    password:
+      type: string
+      description: Пароль
+      example: "somePassword123"
+  required:
+    - fio
+    - email
+    - phone_number
+    - password
+
+AddClientsRequest:
+  type: object
+  properties:
+    fio:
+      type: string
+      description: ФИО клиента
+      example: "Родионов Максим Владимирович"
+    phone_number:
+      type: string
+      description: Номер телефона
+      example: "+7-913-459-1233"
+  required:
+    - fio
+    - phone_number
+
+
+LoginResponse:
+  type: object
+  properties:
+    data:
+      $ref: '#/Clients'
+    meta:
+      type: object
+  required:
+    - data
+
+LoginClientsRequest:
+  type: object
+  properties:
+    email:
+      type: string
+      description: Email
+      example: "example@mail.ru"
+    password:
+      type: string
+      description: Пароль
+      example: "somePassword123"
+  required:
+    - email
+    - password
+
+DeleteResponse:
+  type: object
+  properties:
+    data:
+      type: string
+      description: Ответ
+      example: "Успешно"
+  required:
+    - data

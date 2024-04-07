@@ -1,42 +1,26 @@
 openapi: 3.0.3
 info:
-  title: Ensi Backend Skeleton (Replace me)
-  contact:
-    name: API Support
-    url: https://ensi.tech/contacts
-    email: mail@greensight.ru
+  title: Clients
   version: 1.0.0
-  description: Ensi Backend Skeleton Description (Replace me)
+  description: clients service
 servers:
   - url: /api/v1
 tags:
-  - name: examples
-    description: Тэг-пример
+  - name: clients
+    description: Клиенты
 paths:
-  /examples/{id}:
-    get:
-      tags:
-        - examples
-      operationId: getExample
-      x-lg-handler: 'App\Http\ApiV1\Modules\Foos\Controllers\FoosController@get'
-      x-lg-route-name: 'getExample'
-      x-lg-skip-request-generation: true
-      summary: Получение объекта типа Example
-      description: Получение объекта типа Example
-      parameters:
-        - $ref: '#/components/parameters/PathId'
-        - $ref: '#/components/parameters/QueryInclude'
-      responses:
-        #"200":
-          #description: Успешный ответ
-          # content:
-          #  application/json:
-          #    schema:
-          #      $ref: './customers.yaml#/CustomerResponse'
-        "404":
-          $ref: '#/components/responses/NotFound'
-        "500":
-          $ref: '#/components/responses/ServerError'
+  /clients/register:
+    $ref: './clients/paths.yaml#/Register'
+  /clients:
+    $ref: './clients/paths.yaml#/Create'
+  /clients/login:
+    $ref: './clients/paths.yaml#/Login'
+  /clients/{id}:
+    $ref: './clients/paths.yaml#/Get'
+  /clients/replace/{id}:
+    $ref: './clients/paths.yaml#/Replace'
+  /clients/delete/{id}:
+    $ref: './clients/paths.yaml#/Delete'
 components:
   parameters:
     QueryInclude:

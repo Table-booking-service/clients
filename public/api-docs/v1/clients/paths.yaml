@@ -1,0 +1,152 @@
+Register:
+  post:
+    tags:
+      - clients
+    operationId: registerClient
+    summary: Запрос на регистрацию пользователя
+    description: Запрос на регистрацию пользователя
+    x-lg-handler: 'App\Http\ApiV1\Modules\Clients\Controllers\ClientController@register'
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: './schemas/clients.yaml#/RegisterClientsRequest'
+    responses:
+      "201":
+        description: Выполнено успешно
+        content:
+          application/json:
+            schema:
+              $ref: './schemas/clients.yaml#/RegisterResponse'
+      "400":
+        $ref: '../index.yaml#/components/responses/BadRequest'
+      "500":
+        $ref: '../index.yaml#/components/responses/ServerError'
+
+Create:
+  post:
+    tags:
+      - clients
+    operationId: createClient
+    summary: Запрос на добавление пользователя
+    description: Запрос на добавление пользователя
+    x-lg-handler: 'App\Http\ApiV1\Modules\Clients\Controllers\ClientController@create'
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: './schemas/clients.yaml#/AddClientsRequest'
+    responses:
+      "201":
+        description: Выполнено успешно
+        content:
+          application/json:
+            schema:
+              $ref: './schemas/clients.yaml#/RegisterResponse'
+      "400":
+        $ref: '../index.yaml#/components/responses/BadRequest'
+      "500":
+        $ref: '../index.yaml#/components/responses/ServerError'
+
+Login:
+  post:
+    tags:
+      - clients
+    operationId: loginClient
+    summary: Запрос на авторизацию пользователя
+    description: Запрос на авторизацию пользователя
+    x-lg-handler: 'App\Http\ApiV1\Modules\Clients\Controllers\ClientController@login'
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: './schemas/clients.yaml#/LoginClientsRequest'
+    responses:
+      "201":
+        description: Выполнено успешно
+        content:
+          application/json:
+            schema:
+              $ref: './schemas/clients.yaml#/LoginResponse'
+      "400":
+        $ref: '../index.yaml#/components/responses/BadRequest'
+      "500":
+        $ref: '../index.yaml#/components/responses/ServerError'
+
+Get:
+  get:
+    tags:
+      - clients
+    operationId: getClient
+    x-lg-handler: 'App\Http\ApiV1\Modules\Clients\Controllers\ClientController@get'
+    x-lg-skip-request-generation: true
+    summary: Получение объекта типа Client
+    description: Получение объекта типа Client
+    parameters:
+      - $ref: '../index.yaml#/components/parameters/PathId'
+    responses:
+      "200":
+        description: Успешный ответ
+        content:
+          application/json:
+            schema:
+              $ref: './schemas/clients.yaml#/LoginResponse'
+      "404":
+        $ref: '../index.yaml#/components/responses/NotFound'
+      "500":
+        $ref: '../index.yaml#/components/responses/ServerError'
+
+Replace:
+  put:
+    tags:
+      - clients
+    operationId: putClient
+    summary: Запрос на обновление данных пользователя
+    description: Запрос на обновление данных пользователя
+    x-lg-handler: 'App\Http\ApiV1\Modules\Clients\Controllers\ClientController@replace'
+    parameters:
+      - $ref: '../index.yaml#/components/parameters/PathId'
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: './schemas/clients.yaml#/RegisterClientsRequest'
+    responses:
+      "201":
+        description: Выполнено успешно
+        content:
+          application/json:
+            schema:
+              $ref: './schemas/clients.yaml#/RegisterResponse'
+      "400":
+        $ref: '../index.yaml#/components/responses/BadRequest'
+      "500":
+        $ref: '../index.yaml#/components/responses/ServerError'
+
+
+Delete:
+  delete:
+    tags:
+      - clients
+    operationId: deleteClient
+    x-lg-handler: 'App\Http\ApiV1\Modules\Clients\Controllers\ClientController@delete'
+    x-lg-skip-request-generation: true
+    summary: Запрос на удаление пользователя
+    description: Запрос на удаление пользователя
+    parameters:
+      - $ref: '../index.yaml#/components/parameters/PathId'
+    responses:
+      "200":
+        description: Успешный ответ
+        content:
+          application/json:
+            schema:
+              $ref: './schemas/clients.yaml#/DeleteResponse'
+      "404":
+        $ref: '../index.yaml#/components/responses/NotFound'
+      "500":
+        $ref: '../index.yaml#/components/responses/ServerError'
