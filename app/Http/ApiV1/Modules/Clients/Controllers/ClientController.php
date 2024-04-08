@@ -39,7 +39,9 @@ class ClientController
 
     public function login(LoginClientRequest $request): ClientResource
     {
-        $client = DB::table('clients')->where('email', $request->get('email'))->where('password', $request->get('password'))->first();
+        $client = Clients::query()->where('email', $request->get('email'))
+            ->where('password', $request->get('password'))
+            ->first();
 
         return new ClientResource($client);
     }
@@ -57,9 +59,13 @@ class ClientController
 
         $phone = $request->get('phone_number');
         $fio = $request->get('fio');
+        $email = $request->get('email');
+        $password = $request->get('password');
 
         $client->fio = $fio;
         $client->phone_number = $phone;
+        $client->email = $email;
+        $client->password = $password;
         $client->save();
 
         return new ClientResource($client);

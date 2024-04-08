@@ -2,8 +2,8 @@
 
 namespace App\Domain\Clients\Models;
 
+use App\Domain\Clients\Models\Tests\Factories\ClientsFactory;
 use Carbon\CarbonInterface;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -22,4 +22,9 @@ class Clients extends Model
     protected $table = 'clients';
 
     protected $fillable = ['fio', 'email', 'phone_number', 'password'];
+
+    public static function factory(): ClientsFactory
+    {
+        return ClientsFactory::new();
+    }
 }

@@ -116,7 +116,7 @@ Replace:
           schema:
             $ref: './schemas/clients.yaml#/RegisterClientsRequest'
     responses:
-      "201":
+      "200":
         description: Выполнено успешно
         content:
           application/json:
@@ -124,6 +124,8 @@ Replace:
               $ref: './schemas/clients.yaml#/RegisterResponse'
       "400":
         $ref: '../index.yaml#/components/responses/BadRequest'
+      "404":
+        $ref: '../index.yaml#/components/responses/NotFound'
       "500":
         $ref: '../index.yaml#/components/responses/ServerError'
 
