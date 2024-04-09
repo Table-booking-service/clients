@@ -94,11 +94,12 @@ test('PUT /api/v1/clients/replace/{id} 404', function () {
 });
 
 test('DELETE /api/v1/clients/delete/{id} 200', function () {
-    deleteJson('/api/v1/clients/delete/{id}')
+    $client = Clients::factory()->create();
+    deleteJson("/api/v1/clients/delete/{$client->id}")
         ->assertStatus(200);
 });
 
 test('DELETE /api/v1/clients/delete/{id} 404', function () {
-    deleteJson('/api/v1/clients/delete/{id}')
+    deleteJson('/api/v1/clients/delete/4596')
         ->assertStatus(404);
 });

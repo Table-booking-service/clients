@@ -147,7 +147,13 @@ Delete:
         content:
           application/json:
             schema:
-              $ref: './schemas/clients.yaml#/DeleteResponse'
+              type: object
+              properties:
+                data:
+                  type: object
+                  nullable: true
+              required:
+                - data
       "404":
         $ref: '../index.yaml#/components/responses/NotFound'
       "500":

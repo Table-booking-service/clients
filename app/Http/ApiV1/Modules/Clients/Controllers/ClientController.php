@@ -8,7 +8,7 @@ use App\Http\ApiV1\Modules\Clients\Requests\LoginClientRequest;
 use App\Http\ApiV1\Modules\Clients\Requests\PutClientRequest;
 use App\Http\ApiV1\Modules\Clients\Requests\RegisterClientRequest;
 use App\Http\ApiV1\Modules\Clients\Resources\ClientResource;
-use Illuminate\Support\Facades\DB;
+use App\Http\ApiV1\Modules\Clients\Resources\DeleteResource;
 
 class ClientController
 {
@@ -71,9 +71,11 @@ class ClientController
         return new ClientResource($client);
     }
 
-    public function delete(int $id): void
+    public function delete(int $id): DeleteResource
     {
         $client = Clients::query()->findOrFail($id);
         $client->delete();
+
+        return new DeleteResource($client);
     }
 }
