@@ -65,7 +65,7 @@ Login:
           schema:
             $ref: './schemas/clients.yaml#/LoginClientsRequest'
     responses:
-      "201":
+      "200":
         description: Выполнено успешно
         content:
           application/json:

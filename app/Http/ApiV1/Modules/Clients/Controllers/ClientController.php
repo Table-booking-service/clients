@@ -47,6 +47,7 @@ class ClientController
             ->where('password', $validate['password'])
             ->first();
 
+
         return new ClientResource($client);
     }
 
