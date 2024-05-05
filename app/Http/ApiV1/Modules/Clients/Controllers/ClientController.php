@@ -14,11 +14,13 @@ class ClientController
 {
     public function register(RegisterClientRequest $request): ClientResource
     {
+        $validate = $request->validated();
+
         $client = new Clients();
-        $client->fio = $request->get('fio');
-        $client->email = $request->get('email');
-        $client->phone_number = $request->get('phone_number');
-        $client->password = $request->get('password');
+        $client->fio = $validate['fio'];
+        $client->email = $validate['email'];
+        $client->phone_number = $validate['phone_number'];
+        $client->password = $validate['password'];
         $client->save();
 
         return new ClientResource($client);
@@ -39,8 +41,10 @@ class ClientController
 
     public function login(LoginClientRequest $request): ClientResource
     {
-        $client = Clients::query()->where('email', $request->get('email'))
-            ->where('password', $request->get('password'))
+        $validate = $request->validated();
+
+        $client = Clients::query()->where('email', $validate['email'])
+            ->where('password', $validate['password'])
             ->first();
 
         return new ClientResource($client);
