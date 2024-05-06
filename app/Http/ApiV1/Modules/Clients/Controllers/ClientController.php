@@ -13,7 +13,7 @@ use App\Http\ApiV1\Modules\Clients\Resources\DeleteResource;
 
 class ClientController
 {
-    public function register(RegisterClientRequest $request): \Illuminate\Http\JsonResponse
+    public function register(RegisterClientRequest $request): ClientResource
     {
         $validate = $request->validated();
 
@@ -24,37 +24,27 @@ class ClientController
         $client->password = $validate['password'];
         $client->save();
 
-        $ivlen = openssl_cipher_iv_length('aes-128-cbc');
+        $ivlen = openssl_cipher_iv_length(env('X_API_SECRET_ALGORITHM'));
         $iv = openssl_random_pseudo_bytes($ivlen);
-        $data['token'] = openssl_encrypt(strval($client->id), 'aes-128-cbc', 'bloodshed', 0, $iv);
-        $data['client'] = [
-            'id' => $client->id,
-            'fio' => $client->fio,
-            'phone_number' => $client->phone_number,
-            'created_at' => $client->created_at,
-        ];
+        $token = openssl_encrypt(strval($client->id), env('X_API_SECRET_ALGORITHM'), env('X_API_SECRET_KEY'), 0, $iv);
+        setcookie('token', $token);
 
-        $response = [
-            'data' => $data,
-        ];
-
-        return response()->json($response, 201);
+        return new ClientResource($client);
     }
 
     public function create(CreateClientRequest $request): ClientResource
     {
-        $phone = $request->get('phone_number');
-        $fio = $request->get('fio');
+        $validate = $request->validated();
 
         $client = new Clients();
-        $client->fio = $fio;
-        $client->phone_number = $phone;
+        $client->fio = $validate['fio'];
+        $client->phone_number = $validate['phone_number'];
         $client->save();
 
         return new ClientResource($client);
     }
 
-    public function login(LoginClientRequest $request): \Illuminate\Http\JsonResponse
+    public function login(LoginClientRequest $request): ClientResource
     {
         $validate = $request->validated();
 
@@ -68,19 +58,10 @@ class ClientController
 
         $ivlen = openssl_cipher_iv_length('aes-128-cbc');
         $iv = openssl_random_pseudo_bytes($ivlen);
-        $data['token'] = openssl_encrypt(strval($client->id), 'aes-128-cbc', 'bloodshed', 0, $iv);
-        $data['client'] = [
-            'id' => $client->id,
-            'fio' => $client->fio,
-            'phone_number' => $client->phone_number,
-            'created_at' => $client->created_at,
-        ];
+        $token = openssl_encrypt(strval($client->id), 'aes-128-cbc', 'bloodshed', 0, $iv);
+        setcookie('token', $token);
 
-        $response = [
-            'data' => $data,
-        ];
-
-        return response()->json($response, 200);
+        return new ClientResource($client);
     }
 
     public function get(int $id): ClientResource
@@ -103,17 +84,14 @@ class ClientController
 
     public function replace(int $id, PutClientRequest $request): ClientResource
     {
+        $validate = $request->validated();
+
         $client = Clients::query()->findOrFail($id);
 
-        $phone = $request->get('phone_number');
-        $fio = $request->get('fio');
-        $email = $request->get('email');
-        $password = $request->get('password');
-
-        $client->fio = $fio;
-        $client->phone_number = $phone;
-        $client->email = $email;
-        $client->password = $password;
+        $client->fio = $validate['fio'];
+        $client->phone_number = $validate['phone'];
+        $client->email = $validate['email'];
+        $client->password = $validate['password'];
         $client->save();
 
         return new ClientResource($client);
@@ -125,5 +103,10 @@ class ClientController
         $client->delete();
 
         return new DeleteResource($client);
+    }
+
+    public function logout()
+    {
+        setcookie('token', '', time() - 3600);
     }
 }

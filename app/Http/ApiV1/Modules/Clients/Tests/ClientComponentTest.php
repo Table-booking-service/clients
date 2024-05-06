@@ -25,7 +25,7 @@ uses()->group('component');
 test('POST /api/v1/clients/create 201', function () {
     $request = [
         'fio' => 'Гусев Денис Александрович',
-        'phone_number' => '+7-985-156-4582',
+        'phone_number' => '+7-000-156-4259',
     ];
 
     postJson('/api/v1/clients/create', $request)
@@ -38,11 +38,15 @@ test('POST /api/v1/clients/create 201', function () {
     ]);
 });
 
-//test('POST /api/v1/clients 400', function () {
-//    postJson('/api/v1/clients')
-//        ->assertStatus(400);
-//});
-//
+test('POST /api/v1/clients/create 400', function () {
+    $request = [
+        'fio' => 'Гусев Денис Александрович',
+        'phone_number' => '+7-985-156-4582dddddddddddddddddddddddddddddddd',
+    ];
+    postJson('/api/v1/clients/create', $request)
+        ->assertStatus(400);
+});
+
 //test('POST /api/v1/clients/login 200', function () {
 //    postJson('/api/v1/clients/login')
 //        ->assertStatus(201);

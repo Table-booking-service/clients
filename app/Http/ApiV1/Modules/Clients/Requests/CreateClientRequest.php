@@ -9,8 +9,8 @@ class CreateClientRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'phone_number' => ['required', 'string'],
-            'fio' => ['required', 'string'],
+            'phone_number' => ['required', 'string', 'max:20', 'unique:clients'],
+            'fio' => ['required', 'string', 'max:100'],
         ];
     }
 }
