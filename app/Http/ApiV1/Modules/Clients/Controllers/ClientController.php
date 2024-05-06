@@ -89,7 +89,7 @@ class ClientController
         $client = Clients::query()->findOrFail($id);
 
         $client->fio = $validate['fio'];
-        $client->phone_number = $validate['phone'];
+        $client->phone_number = $validate['phone_number'];
         $client->email = $validate['email'];
         $client->password = $validate['password'];
         $client->save();
