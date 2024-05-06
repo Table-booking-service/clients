@@ -10,11 +10,10 @@ use App\Http\ApiV1\Modules\Clients\Requests\RegisterClientRequest;
 use App\Http\ApiV1\Modules\Clients\Resources\ClientResource;
 use App\Http\ApiV1\Modules\Clients\Resources\ClientsResource;
 use App\Http\ApiV1\Modules\Clients\Resources\DeleteResource;
-use Illuminate\Support\Facades\Auth;
 
 class ClientController
 {
-    public function register(RegisterClientRequest $request): ClientResource
+    public function register(RegisterClientRequest $request): \Illuminate\Http\JsonResponse
     {
         $validate = $request->validated();
 
@@ -25,7 +24,21 @@ class ClientController
         $client->password = $validate['password'];
         $client->save();
 
-        return new ClientResource($client);
+        $ivlen = openssl_cipher_iv_length('aes-128-cbc');
+        $iv = openssl_random_pseudo_bytes($ivlen);
+        $data['token'] = openssl_encrypt(strval($client->id), 'aes-128-cbc', 'bloodshed', 0, $iv);
+        $data['client'] = [
+            'id' => $client->id,
+            'fio' => $client->fio,
+            'phone_number' => $client->phone_number,
+            'created_at' => $client->created_at,
+        ];
+
+        $response = [
+            'data' => $data,
+        ];
+
+        return response()->json($response, 201);
     }
 
     public function create(CreateClientRequest $request): ClientResource
@@ -41,7 +54,7 @@ class ClientController
         return new ClientResource($client);
     }
 
-    public function login(LoginClientRequest $request): ClientResource
+    public function login(LoginClientRequest $request): \Illuminate\Http\JsonResponse
     {
         $validate = $request->validated();
 
@@ -49,8 +62,25 @@ class ClientController
             ->where('password', $validate['password'])
             ->first();
 
+        if (!$client) {
+            abort(404, 'No client with that email or password');
+        }
 
-        return new ClientResource($client);
+        $ivlen = openssl_cipher_iv_length('aes-128-cbc');
+        $iv = openssl_random_pseudo_bytes($ivlen);
+        $data['token'] = openssl_encrypt(strval($client->id), 'aes-128-cbc', 'bloodshed', 0, $iv);
+        $data['client'] = [
+            'id' => $client->id,
+            'fio' => $client->fio,
+            'phone_number' => $client->phone_number,
+            'created_at' => $client->created_at,
+        ];
+
+        $response = [
+            'data' => $data,
+        ];
+
+        return response()->json($response, 200);
     }
 
     public function get(int $id): ClientResource

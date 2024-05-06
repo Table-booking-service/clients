@@ -22,13 +22,13 @@ uses()->group('component');
 //        ->assertStatus(400);
 //});
 
-test('POST /api/v1/clients 201', function () {
+test('POST /api/v1/clients/create 201', function () {
     $request = [
         'fio' => 'Гусев Денис Александрович',
         'phone_number' => '+7-985-156-4582',
     ];
 
-    postJson('/api/v1/clients', $request)
+    postJson('/api/v1/clients/create', $request)
         ->assertStatus(201)
         ->assertJsonPath('data.fio', $request['fio'])
         ->assertJsonPath('data.phone_number', $request['phone_number']);
