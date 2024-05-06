@@ -8,7 +8,9 @@ use App\Http\ApiV1\Modules\Clients\Requests\LoginClientRequest;
 use App\Http\ApiV1\Modules\Clients\Requests\PutClientRequest;
 use App\Http\ApiV1\Modules\Clients\Requests\RegisterClientRequest;
 use App\Http\ApiV1\Modules\Clients\Resources\ClientResource;
+use App\Http\ApiV1\Modules\Clients\Resources\ClientsResource;
 use App\Http\ApiV1\Modules\Clients\Resources\DeleteResource;
+use Illuminate\Support\Facades\Auth;
 
 class ClientController
 {
@@ -56,6 +58,17 @@ class ClientController
         $client = Clients::query()->findOrFail($id);
 
         return new ClientResource($client);
+    }
+
+    public function get_clients(): ClientsResource
+    {
+        $clients = Clients::query()->get();
+
+        if ($clients->isEmpty()) {
+            abort(404, 'No clients.');
+        }
+
+        return new ClientsResource($clients);
     }
 
     public function replace(int $id, PutClientRequest $request): ClientResource

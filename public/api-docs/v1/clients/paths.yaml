@@ -99,6 +99,27 @@ Get:
       "500":
         $ref: '../index.yaml#/components/responses/ServerError'
 
+GetClients:
+  get:
+    tags:
+      - clients
+    operationId: getClients
+    x-lg-handler: 'App\Http\ApiV1\Modules\Clients\Controllers\ClientController@get_clients'
+    x-lg-skip-request-generation: true
+    summary: Получение всех объектов типа Client
+    description: Получение всех объектов типа Client
+    responses:
+      "200":
+        description: Успешный ответ
+        content:
+          application/json:
+            schema:
+              $ref: './schemas/clients.yaml#/ClientsResponse'
+      "404":
+        $ref: '../index.yaml#/components/responses/NotFound'
+      "500":
+        $ref: '../index.yaml#/components/responses/ServerError'
+
 Replace:
   put:
     tags:
