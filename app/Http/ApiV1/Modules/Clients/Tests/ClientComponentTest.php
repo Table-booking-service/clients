@@ -4,6 +4,7 @@ use App\Domain\Clients\Models\Clients;
 use App\Http\ApiV1\Support\Tests\ApiV1ComponentTestCase;
 
 use function Pest\Laravel\assertDatabaseHas;
+use function Pest\Laravel\assertDatabaseMissing;
 use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\getJson;
 use function Pest\Laravel\postJson;
@@ -103,6 +104,11 @@ test('GET /api/v1/clients/{id} 404', function () {
         ->assertStatus(404);
 });
 
+test('GET /api/v1/clients 200', function () {
+    getJson("/api/v1/clients")
+        ->assertStatus(200);
+});
+
 test('PUT /api/v1/clients/replace/{id} 201', function () {
     $client = Clients::factory()->create();
 
@@ -116,6 +122,13 @@ test('PUT /api/v1/clients/replace/{id} 201', function () {
         ->assertStatus(200)
         ->assertJsonPath('data.fio', $request['fio'])
         ->assertJsonPath('data.phone_number', $request['phone_number']);
+
+    assertDatabaseHas(Clients::class, [
+        'fio' => $request['fio'],
+        'phone_number' => $request['phone_number'],
+        'email' => $request['email'],
+        'password' => $request['password'],
+    ]);
 });
 
 test('PUT /api/v1/clients/replace/{id} 404', function () {
@@ -133,6 +146,7 @@ test('DELETE /api/v1/clients/delete/{id} 200', function () {
     $client = Clients::factory()->create();
     deleteJson("/api/v1/clients/delete/{$client->id}")
         ->assertStatus(200);
+    assertDatabaseMissing(Clients::class, ['id' => $client->id]);
 });
 
 test('DELETE /api/v1/clients/delete/{id} 404', function () {

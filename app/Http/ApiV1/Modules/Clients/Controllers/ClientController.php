@@ -10,6 +10,7 @@ use App\Http\ApiV1\Modules\Clients\Requests\RegisterClientRequest;
 use App\Http\ApiV1\Modules\Clients\Resources\ClientResource;
 use App\Http\ApiV1\Modules\Clients\Resources\ClientsResource;
 use App\Http\ApiV1\Modules\Clients\Resources\DeleteResource;
+use Illuminate\Support\Facades\Cookie;
 
 class ClientController
 {
@@ -27,7 +28,7 @@ class ClientController
         $ivlen = openssl_cipher_iv_length(env('X_API_SECRET_ALGORITHM'));
         $iv = openssl_random_pseudo_bytes($ivlen);
         $token = openssl_encrypt(strval($client->id), env('X_API_SECRET_ALGORITHM'), env('X_API_SECRET_KEY'), 0, $iv);
-        setcookie('token', $token);
+        setcookie('token', $token, 60);
 
         return new ClientResource($client);
     }
@@ -73,7 +74,7 @@ class ClientController
 
     public function get_clients(): ClientsResource
     {
-        $clients = Clients::query()->get();
+        $clients = Clients::query()->select('id', 'fio', 'phone_number', 'created_at', 'updated_at')->get();
 
         if ($clients->isEmpty()) {
             abort(404, 'No clients.');
