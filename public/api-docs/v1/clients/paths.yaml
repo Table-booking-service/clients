@@ -65,7 +65,7 @@ Login:
           schema:
             $ref: './schemas/clients.yaml#/LoginClientsRequest'
     responses:
-      "201":
+      "200":
         description: Выполнено успешно
         content:
           application/json:
@@ -94,6 +94,27 @@ Get:
           application/json:
             schema:
               $ref: './schemas/clients.yaml#/LoginResponse'
+      "404":
+        $ref: '../index.yaml#/components/responses/NotFound'
+      "500":
+        $ref: '../index.yaml#/components/responses/ServerError'
+
+GetClients:
+  get:
+    tags:
+      - clients
+    operationId: getClients
+    x-lg-handler: 'App\Http\ApiV1\Modules\Clients\Controllers\ClientController@get_clients'
+    x-lg-skip-request-generation: true
+    summary: Получение всех объектов типа Client
+    description: Получение всех объектов типа Client
+    responses:
+      "200":
+        description: Успешный ответ
+        content:
+          application/json:
+            schema:
+              $ref: './schemas/clients.yaml#/ClientsResponse'
       "404":
         $ref: '../index.yaml#/components/responses/NotFound'
       "500":
@@ -156,5 +177,33 @@ Delete:
                 - data
       "404":
         $ref: '../index.yaml#/components/responses/NotFound'
+      "500":
+        $ref: '../index.yaml#/components/responses/ServerError'
+
+
+Logout:
+  post:
+    tags:
+      - clients
+    operationId: logoutClient
+    x-lg-handler: 'App\Http\ApiV1\Modules\Clients\Controllers\ClientController@logout'
+    x-lg-skip-request-generation: true
+    summary: Запрос на Logout
+    description: Запрос на Logout
+    responses:
+      "200":
+        description: Успешный ответ
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  nullable: true
+              required:
+                - data
+      "400":
+        $ref: '../index.yaml#/components/responses/BadRequest'
       "500":
         $ref: '../index.yaml#/components/responses/ServerError'

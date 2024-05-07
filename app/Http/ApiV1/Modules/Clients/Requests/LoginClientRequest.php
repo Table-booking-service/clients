@@ -9,8 +9,8 @@ class LoginClientRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'password' => ['required', 'string'],
-            'email' => ['required', 'string'],
+            'password' => ['required', 'string', 'max:20'],
+            'email' => ['required', 'string', 'max:30'],
         ];
     }
 }

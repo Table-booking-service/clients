@@ -14,6 +14,8 @@ class ClientsFactory extends BaseModelFactory
         return [
             'fio' => $this->faker->text(100),
             'phone_number' => $this->faker->text(20),
+            'email' => $this->faker->text(30),
+            'password' => $this->faker->text(20),
         ];
     }
 }

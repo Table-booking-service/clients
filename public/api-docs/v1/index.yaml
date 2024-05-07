@@ -11,12 +11,16 @@ tags:
 paths:
   /clients/register:
     $ref: './clients/paths.yaml#/Register'
-  /clients:
+  /clients/create:
     $ref: './clients/paths.yaml#/Create'
   /clients/login:
     $ref: './clients/paths.yaml#/Login'
+  /clients/logout:
+    $ref: './clients/paths.yaml#/Logout'
   /clients/{id}:
     $ref: './clients/paths.yaml#/Get'
+  /clients:
+    $ref: './clients/paths.yaml#/GetClients'
   /clients/replace/{id}:
     $ref: './clients/paths.yaml#/Replace'
   /clients/delete/{id}:

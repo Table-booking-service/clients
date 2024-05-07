@@ -9,8 +9,10 @@ use App\Http\ApiV1\Modules\Clients\Controllers\ClientController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('clients/register', [ClientController::class, 'register']);
-Route::post('clients', [ClientController::class, 'create']);
+Route::post('clients/create', [ClientController::class, 'create']);
 Route::post('clients/login', [ClientController::class, 'login']);
 Route::get('clients/{id}', [ClientController::class, 'get']);
+Route::get('clients', [ClientController::class, 'get_clients']);
 Route::put('clients/replace/{id}', [ClientController::class, 'replace']);
 Route::delete('clients/delete/{id}', [ClientController::class, 'delete']);
+Route::post('clients/logout', [ClientController::class, 'logout']);

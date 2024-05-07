@@ -23,7 +23,8 @@
         "laravel/framework": "^10.0",
         "laravel/octane": "^2.0",
         "laravel/tinker": "^2.7",
-        "spatie/laravel-query-builder": "^5.0"
+        "spatie/laravel-query-builder": "^5.0",
+        "ext-openssl": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.8",
