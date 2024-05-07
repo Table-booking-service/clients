@@ -105,8 +105,10 @@ class ClientController
         return new DeleteResource($client);
     }
 
-    public function logout()
+    public function logout(): DeleteResource
     {
         setcookie('token', '', time() - 3600);
+
+        return new DeleteResource('');
     }
 }

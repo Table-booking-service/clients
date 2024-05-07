@@ -15,3 +15,4 @@ Route::get('clients/{id}', [ClientController::class, 'get']);
 Route::get('clients', [ClientController::class, 'get_clients']);
 Route::put('clients/replace/{id}', [ClientController::class, 'replace']);
 Route::delete('clients/delete/{id}', [ClientController::class, 'delete']);
+Route::post('clients/logout', [ClientController::class, 'logout']);

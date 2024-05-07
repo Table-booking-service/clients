@@ -15,6 +15,8 @@ paths:
     $ref: './clients/paths.yaml#/Create'
   /clients/login:
     $ref: './clients/paths.yaml#/Login'
+  /clients/logout:
+    $ref: './clients/paths.yaml#/Logout'
   /clients/{id}:
     $ref: './clients/paths.yaml#/Get'
   /clients:

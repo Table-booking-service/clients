@@ -179,3 +179,31 @@ Delete:
         $ref: '../index.yaml#/components/responses/NotFound'
       "500":
         $ref: '../index.yaml#/components/responses/ServerError'
+
+
+Logout:
+  post:
+    tags:
+      - clients
+    operationId: logoutClient
+    x-lg-handler: 'App\Http\ApiV1\Modules\Clients\Controllers\ClientController@logout'
+    x-lg-skip-request-generation: true
+    summary: Запрос на Logout
+    description: Запрос на Logout
+    responses:
+      "200":
+        description: Успешный ответ
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  nullable: true
+              required:
+                - data
+      "400":
+        $ref: '../index.yaml#/components/responses/BadRequest'
+      "500":
+        $ref: '../index.yaml#/components/responses/ServerError'
