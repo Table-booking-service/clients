@@ -16,6 +16,7 @@ class ClientController
 {
     public function register(RegisterClientRequest $request): ClientResource
     {
+        Log::channel('stack')->info("Clients Register");
         $validate = $request->validated();
 
         $client = new Clients();
@@ -29,24 +30,26 @@ class ClientController
         $iv = openssl_random_pseudo_bytes($ivlen);
         $token = openssl_encrypt(strval($client->id), env('X_API_SECRET_ALGORITHM'), env('X_API_SECRET_KEY'), 0, $iv);
         setcookie('token', $token, 60);
-        Log::channel('stack')->info("Clients Register $client");
+
         return new ClientResource($client);
     }
 
     public function create(CreateClientRequest $request): ClientResource
     {
+        Log::channel('stack')->info("Clients Create");
         $validate = $request->validated();
 
         $client = new Clients();
         $client->fio = $validate['fio'];
         $client->phone_number = $validate['phone_number'];
         $client->save();
-        Log::channel('stack')->info("Clients Create $client");
+
         return new ClientResource($client);
     }
 
     public function login(LoginClientRequest $request): ClientResource
     {
+        Log::channel('stack')->info("Clients Login");
         $validate = $request->validated();
 
         $client = Clients::query()->where('email', $validate['email'])
@@ -61,30 +64,32 @@ class ClientController
         $iv = openssl_random_pseudo_bytes($ivlen);
         $token = openssl_encrypt(strval($client->id), 'aes-128-cbc', 'bloodshed', 0, $iv);
         setcookie('token', $token);
-        Log::channel('stack')->info("Clients Login $client");
+
         return new ClientResource($client);
     }
 
     public function get(int $id): ClientResource
     {
+        Log::channel('stack')->info("Clients Get");
         $client = Clients::query()->findOrFail($id);
-        Log::channel('stack')->info("Clients Get $client");
+
         return new ClientResource($client);
     }
 
     public function get_clients(): ClientsResource
     {
+        Log::channel('stack')->info("Clients Get All");
         $clients = Clients::query()->select('id', 'fio', 'phone_number', 'created_at', 'updated_at')->get();
 
         if ($clients->isEmpty()) {
             abort(404, 'No clients.');
         }
-        Log::channel('stack')->info('Clients Get All');
         return new ClientsResource($clients);
     }
 
     public function replace(int $id, PutClientRequest $request): ClientResource
     {
+        Log::channel('stack')->info("Clients Replace");
         $validate = $request->validated();
 
         $client = Clients::query()->findOrFail($id);
@@ -94,22 +99,22 @@ class ClientController
         $client->email = $validate['email'];
         $client->password = $validate['password'];
         $client->save();
-        Log::channel('stack')->info("Clients Replace $client");
         return new ClientResource($client);
     }
 
     public function delete(int $id): DeleteResource
     {
+        Log::channel('stack')->info("Clients Delete");
         $client = Clients::query()->findOrFail($id);
         $client->delete();
-        Log::channel('stack')->info("Clients Delete id: {id}", ['id' => $id]);
         return new DeleteResource($client);
     }
 
     public function logout(): DeleteResource
     {
-        setcookie('token', '', time() - 3600);
         Log::channel('stack')->info("Clients Logout");
+        setcookie('token', '', time() - 3600);
+
         return new DeleteResource('');
     }
 }
