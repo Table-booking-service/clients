@@ -75,6 +75,7 @@ class ClientController
     public function get(int $id): ClientResource
     {
         Log::channel('stack')->info("Clients Get");
+
         $authorized = $_COOKIE['token'];
         $decodedId = openssl_decrypt(
             $authorized,
@@ -86,6 +87,7 @@ class ClientController
         if (!$authorized || $decodedId != $id) {
             abort(401, 'Unauthorized');
         }
+
         $client = Clients::query()->findOrFail($id);
 
         return new ClientResource($client);
@@ -106,6 +108,7 @@ class ClientController
     public function replace(int $id, PutClientRequest $request): ClientResource
     {
         Log::channel('stack')->info("Clients Replace");
+
         $authorized = $_COOKIE['token'];
         $decodedId = openssl_decrypt(
             $authorized,
@@ -133,6 +136,7 @@ class ClientController
     public function delete(int $id): DeleteResource
     {
         Log::channel('stack')->info("Clients Delete");
+
         $authorized = $_COOKIE['token'];
         $decodedId = openssl_decrypt(
             $authorized,
@@ -144,6 +148,7 @@ class ClientController
         if (!$authorized || $decodedId != $id) {
             abort(401, 'Unauthorized');
         }
+
         $client = Clients::query()->findOrFail($id);
         $client->delete();
         setcookie('token', '', time() - 3600);
@@ -167,7 +172,7 @@ class ClientController
         $value = openssl_encrypt($data, $algo, $key, 0, $iv);
         $headers = request()->header();
         if (!array_key_exists('x-api-secret', $headers) || $headers['x-api-secret'][0] != $value) {
-            abort(403);
+            abort(403, 'Forbidden');
         }
     }
 
