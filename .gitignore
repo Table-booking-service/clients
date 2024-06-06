@@ -93,3 +93,5 @@ clients/*
 storage/ensi
 generated
 studio.json
+
+docker/

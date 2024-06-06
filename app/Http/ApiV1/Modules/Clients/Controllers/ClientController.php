@@ -30,7 +30,15 @@ class ClientController
         $iv = openssl_random_pseudo_bytes($ivlen);
         $token = openssl_encrypt(strval($client->id), env('X_API_SECRET_ALGORITHM'), env('X_API_SECRET_KEY'), 0, $iv);
         setcookie('token', $token, 60);
-
+//        $data = env('X_API_SECRET_DATA');
+//        $algo = env('X_API_SECRET_ALGORITHM');
+//        $key = env('X_API_SECRET_KEY');
+//        $iv = str_repeat('0', openssl_cipher_iv_length($algo));
+//        $value = openssl_encrypt($data, $algo, $key, 0, $iv);           //HDHffpH3pqY64svULpEFhg==
+//        $headers = request()->header();
+//        if (!array_key_exists('x-api-secret', $headers) || $headers['x-api-secret'][0] != $value) {
+//            abort(403);
+//        }
         return new ClientResource($client);
     }
 
